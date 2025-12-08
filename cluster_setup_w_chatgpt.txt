@@ -1,0 +1,348 @@
+. KUBECONFIG setup
+
+Goal: Make kubectl talk to the cluster, not localhost.
+
+# Copy the admin config to your user
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+# Set KUBECONFIG environment variable
+export KUBECONFIG=$HOME/.kube/config
+
+# Verify nodes
+kubectl get nodes
+
+
+✅ Explanation: kubectl uses a config file to know which cluster to talk to. By default it looks in $HOME/.kube/config. You copied the cluster’s admin.conf there and pointed KUBECONFIG to it.
+
+2. Checking pods in kube-system
+
+Goal: Check system pods (CoreDNS, kube-proxy, etc.)
+
+kubectl get pods -n kube-system
+
+
+✅ Explanation: Shows the status of all system components. Initially CoreDNS pods were stuck ContainerCreating because Flannel networking was missing.
+
+3. Flannel networking issue
+
+Error observed:
+failed to load flannel 'subnet.env' file: open /run/flannel/subnet.env: no such file or directory
+
+Commands we ran to debug:
+
+kubectl get daemonset -n kube-system
+kubectl logs -n kube-system <pod-name>
+
+
+Attempted to apply Flannel manifest:
+
+kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+kubectl get daemonset -n kube-flannel
+kubectl get pods -n kube-flannel -w
+kubectl logs -n kube-flannel <flannel-pod-name>
+
+
+✅ Explanation: This applies the Flannel CNI plugin. Your CoreDNS pods were stuck because networking wasn’t ready.
+
+4. Kernel modules & sysctl for Flannel
+# Load the bridge module required for Flannel
+sudo modprobe br_netfilter
+
+# Verify
+lsmod | grep br_netfilter
+
+# Enable bridge traffic through iptables
+sudo sysctl net.bridge.bridge-nf-call-iptables=1
+sudo sysctl net.bridge.bridge-nf-call-ip6tables=1
+
+
+✅ Explanation: Flannel uses Linux bridges. The sysctl settings allow bridged network traffic to pass through iptables, which is required for pod networking.
+
+5. Verify cluster is healthy
+kubectl get pods -n kube-system -w
+kubectl get nodes
+
+
+✅ Explanation: After Flannel worked, all system pods became Running and nodes showed Ready.
+
+6. Node join commands
+
+**
+
+You said:
+i feel like we had a lot more ! even b4 the troubleshooting all the prerequisites a looooot more !!!
+ChatGPT said:
+
+Ahhhh, got you — you want the full, end-to-end recap from the very first setup commands through to the point your cluster was fully ready, including all prep, kubeadm init, token stuff, node joins, Flannel troubleshooting, sysctl tweaks, etc. I’ll lay it out chronologically, grouped logically, and add explanations so it’s a one-stop reference.
+
+Full Kubernetes Lab Setup Recap
+1️⃣ System preparation (all nodes)
+
+Goal: Prep Ubuntu/Linux nodes for Kubernetes installation.
+
+# Update packages
+sudo apt update && sudo apt upgrade -y
+
+# Install required tools
+sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
+
+# Disable swap (K8s requirement)
+sudo swapoff -a
+sudo sed -i '/ swap / s/^/#/' /etc/fstab
+
+# Load necessary kernel modules
+sudo modprobe br_netfilter
+
+# Persist sysctl settings for bridged traffic
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
+EOF
+sudo sysctl --system
+
+
+✅ Explanation:
+Kubernetes requires swap off, bridge networking modules, and certain sysctl settings to route pod traffic correctly.
+
+2️⃣ Install container runtime & kube tools
+# Install containerd (or Docker)
+sudo apt install -y containerd
+
+# Configure containerd
+sudo mkdir -p /etc/containerd
+containerd config default | sudo tee /etc/containerd/config.toml
+sudo systemctl restart containerd
+sudo systemctl enable containerd
+
+# Add Kubernetes repo
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+
+# Install kubeadm, kubelet, kubectl
+sudo apt install -y kubeadm kubelet kubectl
+sudo apt-mark hold kubelet kubeadm kubectl
+
+
+✅ Explanation:
+kubeadm = cluster bootstrap tool
+kubelet = node agent
+kubectl = CLI client
+
+3️⃣ Initialize the control-plane (master) node
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+
+
+After init, follow instructions printed by kubeadm:
+
+# Set up kubeconfig for regular user
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+# Verify node
+kubectl get nodes
+
+
+✅ Explanation:
+--pod-network-cidr=10.244.0.0/16 matches Flannel’s default. This step outputs the kubeadm join token for worker nodes.
+
+4️⃣ Install Flannel network plugin
+kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+
+
+Check:
+
+kubectl get pods -n kube-system -w
+kubectl get daemonset -n kube-flannel
+kubectl logs -n kube-flannel <flannel-pod-name>
+
+
+✅ Explanation:
+Pods (like CoreDNS) won’t start until a CNI (Container Network Interface) plugin like Flannel is installed.
+
+5️⃣ Troubleshooting Flannel (if needed)
+# Load kernel module
+sudo modprobe br_netfilter
+
+# Sysctl for iptables forwarding
+sudo sysctl net.bridge.bridge-nf-call-iptables=1
+sudo sysctl net.bridge.bridge-nf-call-ip6tables=1
+
+# Verify modules loaded
+lsmod | grep br_netfilter
+
+6️⃣ Joining worker nodes
+
+From control-plane node:
+
+kubeadm token create --print-join-command
+
+
+On each worker node:
+
+sudo kubeadm join <CONTROL_PLANE_IP>:6443 --token <TOKEN> --discovery-token-ca-cert-hash sha256:<HASH>
+
+
+Common pitfalls:
+
+Must run join as root (sudo)
+
+Use exact token and hash from control-plane
+
+7️⃣ Verify cluster state
+kubectl get nodes
+kubectl get pods -n kube-system -w
+kubectl get daemonset -n kube-flannel
+
+
+✅ Explanation:
+
+Nodes: Ready status = fully joined
+
+Pods: Running = networking and system components healthy
+
+8️⃣ Optional extras we did
+
+Copied admin.conf for kubeconfig
+
+Debugged CrashLoopBackOff for Flannel
+
+Observed live pod status with -w
+
+Checked logs: kubectl logs -n kube-flannel <pod>
+
+Kernel module & sysctl tweaks (br_netfilter, iptables)
+
+At this point, your cluster was fully operational:
+
+kubectl get nodes
+NAME   STATUS   ROLES           AGE     VERSION
+k8s    Ready    control-plane   139m    v1.34.2
+k8s1   Ready    <none>          20s     v1.34.2
+k8s2   Ready    <none>          2m23s   v1.34.2
+
+
+If you want, I can also make a condensed “one-page cheat sheet” of all commands exactly as you typed them, ready to just copy-paste on a new VM for cloning your environment. That way you won’t miss anything next time.
+
+Do you want me to do that?
+
+You said:
+yes
+ChatGPT said:
+
+Perfect. Here’s a complete, ready-to-use, chronological cheat sheet of everything we did to get your multi-node K8s cluster fully operational, with minimal commentary so it can just be copy-pasted on a fresh VM. I’ve included both control-plane and worker steps, networking, and troubleshooting.
+
+Kubernetes Cluster Setup Cheat Sheet – Copy & Paste Ready
+1️⃣ System prep (all nodes)
+# Update system
+sudo apt update && sudo apt upgrade -y
+
+# Install prerequisites
+sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
+
+# Disable swap (required for K8s)
+sudo swapoff -a
+sudo sed -i '/ swap / s/^/#/' /etc/fstab
+
+# Load bridge netfilter module
+sudo modprobe br_netfilter
+
+# Persist sysctl settings
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
+EOF
+
+sudo sysctl --system
+
+2️⃣ Install container runtime & K8s tools
+# Install containerd
+sudo apt install -y containerd
+sudo mkdir -p /etc/containerd
+containerd config default | sudo tee /etc/containerd/config.toml
+sudo systemctl restart containerd
+sudo systemctl enable containerd
+
+# Add Kubernetes repository
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+
+# Install kubeadm, kubelet, kubectl
+sudo apt install -y kubeadm kubelet kubectl
+sudo apt-mark hold kubelet kubeadm kubectl
+
+3️⃣ Initialize control-plane (master) node
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+
+# Set kubeconfig for regular user
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+# Check node status
+kubectl get nodes
+
+4️⃣ Install Flannel network plugin
+kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+
+# Watch pod status
+kubectl get pods -n kube-system -w
+
+5️⃣ Troubleshooting Flannel (if CrashLoopBackOff)
+# Load kernel module if missing
+sudo modprobe br_netfilter
+
+# Set sysctl for iptables forwarding
+sudo sysctl net.bridge.bridge-nf-call-iptables=1
+sudo sysctl net.bridge.bridge-nf-call-ip6tables=1
+
+# Verify module
+lsmod | grep br_netfilter
+
+# Check Flannel logs
+kubectl logs -n kube-flannel <flannel-pod-name>
+
+6️⃣ Join worker nodes
+
+From control-plane node:
+
+kubeadm token create --print-join-command
+
+
+On each worker node (run as root):
+
+sudo kubeadm join <CONTROL_PLANE_IP>:6443 --token <TOKEN> --discovery-token-ca-cert-hash sha256:<HASH>
+
+
+Verify:
+
+kubectl get nodes
+
+7️⃣ Check cluster health
+kubectl get nodes
+kubectl get pods -n kube-system -w
+kubectl get daemonset -n kube-flannel
+
+8️⃣ Extras / live debugging commands
+# Watch pods live
+kubectl get pods -n kube-system -w
+
+# Check logs for a specific pod
+kubectl logs -n kube-flannel <pod-name>
+
+# Flannel DaemonSet
+kubectl get daemonset -n kube-flannel
+
+
+✅ Resulting cluster example:
+
+kubectl get nodes
+NAME   STATUS   ROLES           AGE     VERSION
+k8s    Ready    control-plane   139m    v1.34.2
+k8s1   Ready    <none>          20s     v1.34.2
+k8s2   Ready    <none>          2m23s   v1.34.2
+
