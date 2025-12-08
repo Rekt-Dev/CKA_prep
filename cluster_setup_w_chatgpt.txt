@@ -338,7 +338,7 @@ kubectl logs -n kube-flannel <pod-name>
 kubectl get daemonset -n kube-flannel
 
 
-✅ Resulting cluster example:
+ Resulting cluster example:
 
 kubectl get nodes
 NAME   STATUS   ROLES           AGE     VERSION
