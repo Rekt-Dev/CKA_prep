@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: replicasetov
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: appov
+
+  template:
+    metadata:
+      labels:
+        app: appov
+    spec:
+      containers:
+      - name: appov-container
+        image: nginx
+        ports:
+        - containerPort: 80
+
+

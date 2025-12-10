@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: my-rc
+spec:
+  replicas: 3
+  selector:
+    app: appov
+  template:
+    metadata:
+      labels:
+        app: appov
+    spec:
+      containers:
+      - name: appov-container
+        image: nginx
+        ports:
+        - containerPort: 80
+
+
