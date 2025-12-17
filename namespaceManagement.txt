@@ -1,0 +1,12 @@
+reating Namespaces
+# Correct way:
+kubectl create namespace <namespace-name>
+
+# Wrong way (causes error):
+kubectl create --namespace <namespace-name>
+# Error: must specify one of -f and -k
+
+# Usage of --namespace:
+- Only for resources created inside an existing namespace
+kubectl create -f deployment.yaml --namespace=<namespace>
+
