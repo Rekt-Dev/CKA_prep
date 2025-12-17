@@ -1,0 +1,44 @@
+f kube-apiserver is a static pod on a master node
+kubectl get pods -n kube-system -o wide | grep kube-apiserver
+
+
+Note the NODE it’s running on.
+
+Then on that node:
+
+ps -ef | grep kube-apiserver
+
+
+Look for --enable-admission-plugins in the command line; that shows all enabled controllers, including defaults.
+
+2. One-liner to just see default admission controllers
+
+If you want a compact grep:
+
+ps -ef | grep kube-apiserver | grep enable-admission-plugins
+
+
+Returns something like:
+
+--enable-admission-plugins=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota,NodeRestriction
+
+3. Alternative: using the binary help
+
+If you’re on the node and the binary is accessible:
+
+kube-apiserver --help | grep admission-plugins
+
+
+Shows the full list of available plugins, with the ones enabled by default usually marked.
+
+So the “exec into machine and get defaults in one line” is basically:
+
+ps -ef | grep kube-apiserver | grep enable-admission-plugins
+
+
+or, if you’re in a containerized setup:
+
+kubectl exec -n kube-system <kube-apiserver-pod> -- ps -ef | grep kube-apiserver | grep enable-admission-plugins
+
+
+
