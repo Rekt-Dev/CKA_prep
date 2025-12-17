@@ -1,0 +1,8 @@
+
+lplane ~ ➜  kubectl create secret tls webhook-server-tls --namespace webhook-demo
+error: key and cert must be specified
+
+controlplane ~ ✖ kubectl create secret tls webhook-server-tls --cert=/root/keys/webhook-server-tls.crt --key=/root/keys/webhook-server-tls.key --namespace
+ webhook-demo 
+secret/webhook-server-tls created
+
