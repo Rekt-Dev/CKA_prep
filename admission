@@ -1,0 +1,16 @@
+dmission Controllers
+- Intercept API server requests AFTER authN/authZ, BEFORE persistence.
+- Types:
+  1. MutatingAdmissionWebhook -> can mutate resources
+  2. ValidatingAdmissionWebhook -> can validate/enforce policies
+- Enabled by default (common ones):
+  - NamespaceLifecycle
+  - LimitRanger
+  - ServiceAccount
+  - ResourceQuota
+- NOT enabled by default:
+  - MutatingAdmissionWebhook
+  - ValidatingAdmissionWebhook
+  - PodSecurity (sometimes, depending on version)
+- To enable webhooks: add to kube-apiserver --enable-admission-plugins flag
+
