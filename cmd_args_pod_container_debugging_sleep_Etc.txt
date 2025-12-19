@@ -1,0 +1,80 @@
+ pod alive for debugging
+
+Problem: Your app crashes instantly. You need to look inside.
+
+What you do:
+
+command: ["sleep"]
+args: ["3600"]
+
+
+Effect:
+
+Pod starts
+
+App doesn’t run
+
+You can kubectl exec into the pod and poke around
+
+Why it’s used: Debugging broken images in production without rebuilding them.
+
+2. Run a one-off job
+
+Problem: You need to migrate a database, but the image normally runs a server.
+
+command: ["node"]
+args: ["migrate.js"]
+
+
+Effect:
+
+Same container image
+
+Instead of starting the server, it runs the migration script
+
+Why: Avoids rebuilding the image just for one task.
+
+3. Init containers
+
+Problem: Your main app needs the database to be ready first.
+
+initContainers:
+- name: wait-db
+  image: busybox
+  command: ["sh", "-c"]
+  args: ["until nc -z db 5432; do sleep 2; done"]
+
+
+Effect:
+
+Waits for DB before starting the main app
+
+Why: Ensures services start in the right order.
+
+4. Same image, different environments
+
+Dev:
+
+command: ["npm"]
+args: ["run", "dev"]
+
+
+Prod:
+
+command: ["node"]
+args: ["dist/server.js"]
+
+
+Effect: Same image, different behavior.
+
+Why: No need to rebuild images for dev vs prod.
+
+TL;DR in plain words
+
+command = what main process to run (overrides container default)
+
+args = options/arguments for that process (overrides container CMD)
+
+Use it to: debug, run one-off tasks, init things, or change behavior without touching the image
+
+Pod is small, yes, but inside it, the container still runs like a normal server, and Kubernetes just controls which process actually starts.
