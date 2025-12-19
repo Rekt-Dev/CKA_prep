@@ -1,0 +1,55 @@
+Dockerfile fields:
+
+ENTRYPOINT → the main executable, e.g., python app.py
+
+CMD → default arguments to that executable, e.g., --color red
+
+Kubernetes pod spec fields:
+
+command
+
+Fully overrides Dockerfile ENTRYPOINT
+
+Ignores Dockerfile CMD entirely
+
+Kubernetes runs exactly what you put here
+
+Use it only if you want to replace the main executable
+
+args
+
+Replaces Dockerfile CMD only
+
+Keeps Dockerfile ENTRYPOINT intact
+
+Kubernetes runs ENTRYPOINT + args
+
+Use it to tweak parameters without breaking the main program
+
+
+
+
+
+
+----------------
+
+
+
+
+
+y cant i use command here in the yaml instead of args.
+
+KodeKloud AI Assistant
+Great question! In Kubernetes, the command field (which overrides ENTRYPOINT) is used to specify the full command to run, while args (which override CMD) pass arguments to that command.
+
+Why not put the command with arguments directly in the YAML?
+Because, to set just the arguments (like --color=green), you should use args. If you put the whole command (like the executable path) and arguments together in command, you override the container's default entry point, which might lead to issues if not done correctly.
+
+In your case:
+Use args to add --color=green so that the container runs the existing command with your argument without messing up its default entry point.
+
+Summary:
+
+If you replace command, you need to specify the whole start command.
+Use args to add parameters to the default command safely.
+That's why it's best practice here—use args for parameters like --color=green!
