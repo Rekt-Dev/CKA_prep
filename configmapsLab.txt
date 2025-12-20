@@ -1,0 +1,52 @@
+
+lplane ~ ➜  apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: webapp-config-map
+data:
+  APP_COLOR: darkblue
+  APP_OTHER: disregard
+-bash: apiVersion:: command not found
+-bash: kind:: command not found
+-bash: metadata:: command not found
+-bash: name:: command not found
+-bash: data:: command not found
+-bash: APP_COLOR:: command not found
+-bash: APP_OTHER:: command not found
+
+controlplane ~ ✖ 
+
+controlplane ~ ✖ 
+
+controlplane ~ ✖ k create configmap webapp-config-map -o yaml | tee webapp-config-map.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2025-12-20T07:40:28Z"
+  name: webapp-config-map
+  namespace: default
+  resourceVersion: "1295"
+  uid: f1ac0193-97ed-40cf-9d9c-90935e1a925f
+
+controlplane ~ ➜  vi webapp-config-map.yaml 
+
+controlplane ~ ➜  k apply -f webapp-config-map.yaml 
+Warning: resource configmaps/webapp-config-map is missing the kubectl.kubernetes.io/last-applied-configuration annotation which is required by kubectl apply. kubectl apply should only be used on resources created declaratively by either kubectl create --save-config or kubectl apply. The missing annotation will be patched automatically.
+configmap/webapp-config-map configured
+
+controlplane ~ ➜  k edit configmaps 
+db-config          kube-root-ca.crt   mycm               webapp-config-map  
+
+controlplane ~ ➜  k edit configmap webapp-config-map 
+Edit cancelled, no changes made.
+
+controlplane ~ ➜  k edit pod webapp-color 
+error: pods "webapp-color" is invalid
+A copy of your changes has been stored to "/tmp/kubectl-edit-1126878434.yaml"
+error: Edit cancelled, no valid changes were saved.
+
+controlplane ~ ✖ k replace --force -f /tmp/kubectl-edit-1126878434.yaml
+pod "webapp-color" deleted from default namespace
+pod/webapp-color replaced
+
+controlplane ~ ➜  
