@@ -1,0 +1,16 @@
+ing Configmaps as environment variables
+To use a Configmap in an environment variable in a Pod:
+
+For each container in your Pod specification, add an environment variable for each Configmap key that you want to use to the env[].valueFrom.configMapKeyRef field.
+Modify your image and/or command line so that the program looks for values in the specified environment variables.
+This is an example of defining a ConfigMap as a pod environment variable:
+
+The following ConfigMap (myconfigmap.yaml) stores two properties: username and access_level:
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: myconfigmap
+data:
+  username: k8s-admin
+  access_level: "1"
