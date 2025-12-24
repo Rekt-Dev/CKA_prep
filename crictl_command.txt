@@ -1,0 +1,72 @@
+crictl ps | grep kube-apiserver
+
+crictl pods
+
+crictl ps
+
+------------------------
+
+
+chat : 
+
+. List pods on the node
+crictl pods
+
+
+Shows all pods (sandbox) running on that node only
+
+Gives Pod ID, namespace, name, state
+
+2. List containers
+crictl ps
+
+
+Lists all containers (running or exited)
+
+Useful for correlating container IDs with pod names
+
+Extra: show all containers (not just running)
+
+crictl ps -a
+
+3. Inspect pod or container
+crictl inspectp <POD-ID>
+crictl inspect <CONTAINER-ID>
+
+
+Returns full JSON spec + status
+
+Useful to debug why a Pod isn’t starting
+
+4. Check logs
+crictl logs <CONTAINER-ID>
+
+
+Same as kubectl logs but node-local
+
+Vital if kube-apiserver or kubelet isn’t cooperating
+
+5. Exec into a container
+crictl exec -it <CONTAINER-ID> sh
+
+
+Node-level debugging
+
+Usually for testing container internals
+
+6. Stop / remove containers
+crictl stop <CONTAINER-ID>
+crictl rm <CONTAINER-ID>
+
+
+Only if the question explicitly asks to clean a pod or container
+
+Do not use for normal updates
+
+7. Image management (less common but CKA may ask)
+crictl images
+crictl pull <IMAGE>
+crictl rmi <IMAGE>
+
+
+For preloading images or cleaning up nodes
