@@ -1,0 +1,1 @@
+rollout restart deploy my-deployment -n <amespace>
