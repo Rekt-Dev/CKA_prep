@@ -1,0 +1,51 @@
+perators
+Operator	Meaning
+Equal	Must match key AND value (and effect if specified)
+Exists	Tolerates any value of the key; effect still matters
+2. Effects
+Effect	Behavior
+NoSchedule	Pod cannot schedule on node unless it tolerates the taint
+PreferNoSchedule	Scheduler tries to avoid, but can still schedule
+NoExecute	Pod evicted immediately if running; new pods cannot schedule unless tolerated
+3. Examples
+
+Taint on node:
+
+kubectl taint nodes worker1 key1=value1:NoSchedule
+kubectl taint nodes worker2 key2:NoExecute
+kubectl taint nodes worker3 key3=value3:PreferNoSchedule
+
+
+Matching tolerations in pod spec:
+
+# Exact match (Equal)
+tolerations:
+- key: "key1"
+  operator: "Equal"
+  value: "value1"
+  effect: "NoSchedule"
+
+# Exists operator, ignores value
+- key: "key2"
+  operator: "Exists"
+  effect: "NoExecute"
+
+# PreferNoSchedule toleration
+- key: "key3"
+  operator: "Exists"
+  effect: "PreferNoSchedule"
+
+4. Quick tips for CKA labs
+
+NoSchedule → must tolerate to schedule
+
+PreferNoSchedule → scheduling is optional
+
+NoExecute → affects existing pods too
+
+Use Exists for generic tolerations; Equal for precise key/value matches
+
+Always check node taints:
+
+kubectl describe node <node-name> | grep -i taint -A3
+
