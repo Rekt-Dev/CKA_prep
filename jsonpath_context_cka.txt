@@ -1,0 +1,43 @@
+ll context names (one per line)
+kubectl --kubeconfig=/opt/course/1/kubeconfig \
+  config view -o jsonpath='{range .contexts[*]}{.name}{"\n"}{end}' \
+  > /opt/course/1/contexts
+
+
+Explanation:
+
+--kubeconfig=/opt/course/1/kubeconfig → use the provided kubeconfig instead of ~/.kube/config
+
+range .contexts[*] → loop over each context
+
+{.name} → grab the context name
+
+{"\n"} → newline after each
+
+> /opt/course/1/contexts → write output to the file they specify
+
+2️⃣ Write the current context name
+kubectl --kubeconfig=/opt/course/1/kubeconfig \
+  config view -o jsonpath='{.current-context}' \
+  > /opt/course/1/current-context
+
+
+Grab .current-context
+
+Redirect into the specified file
+
+3️⃣ Write the client key of user account-0027 (base64-decoded)
+kubectl --kubeconfig=/opt/course/1/kubeconfig \
+  config view -o jsonpath='{.users[?(@.name=="account-0027")].user.client-key-data}' \
+  | base64 --decode > /opt/course/1/cert
+
+
+[?(@.name=="account-0027")] → filter for that user
+
+.user.client-key-data → pick their key
+
+Pipe to base64 --decode → decode it
+
+Redirect to /opt/course/1/cert
+
+✅ 
