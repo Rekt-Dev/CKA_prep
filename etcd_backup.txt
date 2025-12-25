@@ -1,0 +1,13 @@
+rename apiserver yaml so it goes offline, 
+
+do the snapshot.
+
+mv the old etcd folder so the folder is fresh and u can restore the snapshot there.
+
+restore the snapshot to the right folder use mv -p when doing it so itll create the parents 
+
+rename the apiseerver file bring it back nline. 
+
+check ll pods r back, coz timing is crucial, (remember to check timing so pods wont be pending)
+
+
