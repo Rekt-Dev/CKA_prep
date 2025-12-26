@@ -12,4 +12,4 @@ check all pods r back, coz timing is crucial, (remember to check timing so pods 
 
 remember static pod : manifests
 
-
+.
