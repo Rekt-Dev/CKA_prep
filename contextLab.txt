@@ -1,0 +1,1 @@
+kubectl config use-context research --kubeconfig /root/my-kube-config
