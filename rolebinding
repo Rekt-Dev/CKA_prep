@@ -1,0 +1,44 @@
+
+lplane /etc/kubernetes ➜  kubectl describe role
+rolebindings.rbac.authorization.k8s.io  roles.rbac.authorization.k8s.io
+
+controlplane /etc/kubernetes ➜  kubectl describe role
+rolebindings.rbac.authorization.k8s.io  roles.rbac.authorization.k8s.io
+
+controlplane /etc/kubernetes ➜  kubectl describe role
+rolebindings.rbac.authorization.k8s.io  roles.rbac.authorization.k8s.io
+
+controlplane /etc/kubernetes ➜  kubectl describe rolebindings.rbac.authorization.k8s.io 
+No resources found in default namespace.
+
+controlplane /etc/kubernetes ➜  
+
+controlplane /etc/kubernetes ➜  kubectl describe rolebinding dev-user
+Error from server (NotFound): rolebindings.rbac.authorization.k8s.io "dev-user" not found
+
+controlplane /etc/kubernetes ✖ kubectl describe rolebinding dev-user -n kube-system
+Error from server (NotFound): rolebindings.rbac.authorization.k8s.io "dev-user" not found
+
+controlplane /etc/kubernetes ✖ kubectl describe rolebinding dev-user 
+Error from server (NotFound): rolebindings.rbac.authorization.k8s.io "dev-user" not found
+
+controlplane /etc/kubernetes ✖ kubectl describe user dev-user 
+error: the server doesn't have a resource type "user"
+
+controlplane /etc/kubernetes ✖ kubectl aut
+auth       (Inspect authorization)
+autoscale  (Auto-scale a deployment, replica set, stateful set, or replication controller)
+
+controlplane /etc/kubernetes ✖ kubectl auth can-i list pods
+yes
+
+controlplane /etc/kubernetes ➜  kubectl auth can-i list pods --as dev-user
+no
+
+controlplane /etc/kubernetes ✖ kubectl create role developer --verb=get --verb=list --verb=create --verb=delete --resource=pods
+role.rbac.authorization.k8s.io/developer created
+
+controlplane /etc/kubernetes ➜  kubectl create rolebinding dev-user-binding --clusterrole=admin --user=dev-use
+r --namespace=default
+rolebinding.rbac.authorization.k8s.io/dev-user-binding created
+
