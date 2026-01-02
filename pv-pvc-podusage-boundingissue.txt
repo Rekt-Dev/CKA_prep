@@ -1,0 +1,79 @@
+heck access mode
+
+PV local-pv: ReadWriteOnce ✅
+
+PVC local-pvc: ReadWriteOnce ✅
+Good, they match.
+
+2. Check storage class
+
+PV: local-path ✅
+
+PVC: local-path ✅
+Also matches.
+
+3. Check capacity
+
+PV: 500Mi
+
+PVC requests: 500Mi ✅
+Matches exactly.
+
+4. Check volumeMode
+
+PV defaults to Filesystem (unless set differently)
+
+PVC requests Filesystem ✅
+Good.
+
+5. Check binding by claim reference
+
+The PV status is Available. That means Kubernetes hasn’t auto-bound it yet. Why?
+
+Because your PV might need the spec.claimRef filled automatically or dynamic provisioning enabled. Static PVs don’t always bind automatically to a PVC unless they are strictly compatible and the cluster allows it.
+
+6. How to force binding
+
+Add this to the PV spec:
+
+spec:
+  claimRef:
+    namespace: default
+    name: local-pvc
+
+
+This tells Kubernetes:
+
+“Bind this PV to this exact PVC.”
+
+Without it, Kubernetes sees the PV as Available, the PVC as Pending, and doesn’t auto-bind.
+
+TL;DR
+
+PV exists ✅
+
+PVC exists ✅
+
+Auto-binding didn’t happen because this is a static PV
+
+Solution: add claimRef to PV or recreate PV after PVC creation
+
+After that, the PVC should go Bound
+
+
+
+
+
+-----------------------
+
+
+
+
+How to force binding
+
+Add this to the PV spec:
+
+spec:
+  claimRef:
+    namespace: default
+    name: local-pvc.
