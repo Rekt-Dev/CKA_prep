@@ -62,7 +62,13 @@ After that, the PVC should go Bound
 
 
 
+STORAGECLASS: !!!! Just on PV and PVC. The Pod only references the PVC—it doesn’t care about the storage class.
 
+PV → storageClassName: local-path
+
+PVC → storageClassName: local-path
+
+Pod → volumes points to the PVC name, that’s it.
 
 -----------------------
 
