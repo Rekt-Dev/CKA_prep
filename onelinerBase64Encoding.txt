@@ -1,0 +1,3 @@
+cat /root/something/john.csr | base64 | tr -d '\n'
+
+
