@@ -1,0 +1,11 @@
+kubectl run test-nslookup --image=busybox --rm -it --restart=Never -- nslookup nginx-resolver-service
+
+
+kubectl run test-nslookup --image=busybox --rm -it --restart=Never -- nslookup 172-17-1-18.defult.pod
+
+
+kubectl expose pod nginx-resolver --name=nginx-resolver-service --port=80 --target-port=80 --type=ClusterIP
+
+
+
+
