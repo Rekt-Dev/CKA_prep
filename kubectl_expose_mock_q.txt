@@ -1,0 +1,6 @@
+
+se deployment hr-web-app \
+  --type=NodePort \
+  --name=hr-web-app-service \
+  --port=8080 \
+  --node-port=30080
