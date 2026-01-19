@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: synergy-deployment
+  labels:
+    app: synergy-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: synergy-deployment
+  template:
+    metadata:
+      labels:
+        app: synergy-deployment
+    spec:
+      volumes:
+      - name: synergy-log-vol
+        emptyDir: {}
+      containers:
+      - name: synergy-container
+        image: busybox:stable
+        volumeMounts:
+        - name: synergy-log-vol
+          mountPath: /var/log
+        command: ["/bin/sh", "-c", "while true; do date >> /var/log/synergy-deployment.log; sleep 1; done"]
+      - name: sidecar
+        image: busybox:stable
+        volumeMounts:
+        - name: synergy-log-vol
+          mountPath: /var/log   
+        command: ["/bin/sh", "-c", "while [ ! -f /var/log/synergy-deployment.log ]; do sleep 1; done; tail -n +1 -f /var/log/synergy-deployment.log"]
+
