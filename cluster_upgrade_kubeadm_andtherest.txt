@@ -1,0 +1,32 @@
+KA purposes, you need to know the flow:
+
+Upgrade kubeadm (you just did it).
+
+Plan the cluster upgrade:
+
+kubeadm upgrade plan
+
+
+Upgrade the control plane node:
+
+kubeadm upgrade apply v1.33.7
+
+
+Upgrade kubelet and kubectl on each node (including control plane):
+
+sudo apt-mark unhold kubelet kubectl
+sudo apt-get update
+sudo apt-get install -y kubelet=1.33.7-1.1 kubectl=1.33.7-1.1
+sudo apt-mark hold kubelet kubectl
+sudo systemctl restart kubelet
+
+
+Check cluster version:
+
+kubectl get nodes
+kubectl version
+
+
+Everything above is literally from the official Kubernetes kubeadm upgrade guide:
+
+Kubernetes: Upgrading kubeadm clusters

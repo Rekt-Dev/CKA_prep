@@ -1,0 +1,9 @@
+ommand                             | What it does                               | When you’d use it                       |
+| ----------------------------------- | ------------------------------------------ | --------------------------------------- |
+| `crictl ps -a`                      | Lists all containers (running and stopped) | See what’s actually on a node           |
+| `crictl images`                     | Lists images present                       | Confirm image exists locally            |
+| `crictl logs <container-id>`        | Show container logs                        | Troubleshoot why a container is failing |
+| `crictl inspect <container-id>`     | Full container info in JSON                | Deep-dive for exam scenarios            |
+| `crictl exec -it <container-id> sh` | Jump inside container                      | Rare, but exam may test debugging       |
+| `crictl info`                       | Shows runtime info                         | Verify CRI state, runtime version       |
+

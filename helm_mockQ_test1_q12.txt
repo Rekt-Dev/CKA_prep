@@ -1,0 +1,17 @@
+ght: 8
+One co-worker deployed an nginx helm chart kk-mock1 in the kk-ns namespace on the cluster. A new update is pushed to the helm chart, and the team wants you to update the helm repository to fetch the new changes.
+
+
+After updating the helm chart, upgrade the helm chart version to 18.1.15.
+
+
+
+Is the deployment running?
+
+Is the chart version upgraded?
+
+
+
+-----------------------
+
+controlplane ~ ✖ helm upgrade kk-mock1 kk-mock1/nginx --namespace kk-ns --version 18.1.15

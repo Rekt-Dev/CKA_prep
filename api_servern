@@ -1,0 +1,8 @@
+ API Server
+- Can run as:
+  1. Static pod (kubelet reads /etc/kubernetes/manifests/kube-apiserver.yaml)
+  2. Systemd process (binary running directly)
+  3. Container started outside k8s (systemd or startup scripts)
+- Must exist before kubelet can manage pods.
+- Control plane components (kube-apiserver, kube-scheduler, kube-controller-manager, etcd) are critical, sometimes outside normal pod control.
+

@@ -1,0 +1,52 @@
+k
+
+Install Argo CD using Helm, but:
+
+CRDs are already installed
+
+You must not install CRDs again
+
+You must generate a Helm template and save it to /argo-helm.yaml
+
+Use version 7.7.3
+
+Install in argocd namespace
+
+Release name: argocd
+
+🔥 Step 1 — Add the Argo Helm repo
+helm repo add argo https://argo.github.io/argo-helm
+helm repo update
+
+🔥 Step 2 — Generate the template with CRDs disabled
+helm template argocd argo/argo-cd \
+  --version 7.7.3 \
+  --namespace argocd \
+  --set crds.install=false \
+  > /argo-helm.yaml
+
+
+This creates the full YAML with CRDs disabled, saved to /argo-helm.yaml.
+
+🔥 Step 3 — Install using that exact template (same config)
+helm install argocd argo/argo-cd \
+  --version 7.7.3 \
+  --namespace argocd \
+  --create-namespace \
+  --set crds.install=false
+
+✅ Result
+
+Argo CD installed
+
+Same version as the template
+
+Same config
+
+CRDs not installed
+
+Namespace argocd
+
+Release name argocd
+
+If you want the “pure YAML only” approach (apply the generated file), that works too, but the exam wants Helm commands, not kubectl apply.

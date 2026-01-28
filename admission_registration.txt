@@ -1,0 +1,11 @@
+:
+      - operations: [ "CREATE" ]
+        apiGroups: [""]
+        apiVersions: ["v1"]
+        resources: ["pods"]
+    admissionReviewVersions: ["v1beta1"]
+    sideEffects: None
+
+
+
+THIS WILL CREATE A POD WITH CREATE OPERATIONS ADMISSION WEBHOOK 

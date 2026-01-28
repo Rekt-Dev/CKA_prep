@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    pv.kubernetes.io/bind-completed: "yes"
+    pv.kubernetes.io/bound-by-controller: "yes"
+  creationTimestamp: "2026-01-19T09:40:53Z"
+  finalizers:
+  - kubernetes.io/pvc-protection
+  name: mariadb
+  namespace: mariadb
+  resourceVersion: "2765366"
+  uid: 6de914a8-6b3b-499f-8431-fc2e50abc708
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 250Mi
+  storageClassName: ""
+  volumeMode: Filesystem
+  volumeName: pv-mariadb
+status:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 5Gi

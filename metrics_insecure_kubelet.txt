@@ -1,0 +1,9 @@
+unning + 0/1 + Readiness 500 = kubelet TLS
+
+MissingEndpoints almost always means readiness failed
+
+metrics-server must scrape kubelets
+
+labs use self-signed certs
+
+therefore --kubelet-insecure-tls is not optional in labs

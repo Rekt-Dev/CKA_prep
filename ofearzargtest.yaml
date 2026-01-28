@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: ofearztesterargs
+  name: ofearztesterargs
+spec:
+  containers:
+  - args:
+    - --color
+    - green
+    image: kodekloud/webapp-color
+    name: ofearztesterargs
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}

@@ -1,0 +1,126 @@
+eck kubelet (and its logs)
+1. Pods stuck in Pending on one node
+
+Scheduler placed the pod
+
+It never starts
+
+Other nodes are fine
+→ kubelet on that node is suspect
+
+2. Pods stuck in ContainerCreating
+
+Images not pulling
+
+Volumes not mounting
+
+Sandbox not created
+→ kubelet + container runtime interaction
+
+3. Pods in CrashLoopBackOff only on one node
+
+Same pod runs fine elsewhere
+→ node-local issue, kubelet sees the truth
+
+4. Static pods broken (control plane panic)
+
+kube-apiserver not starting
+
+kube-scheduler missing
+
+controller-manager flapping
+→ kubelet reads /etc/kubernetes/manifests
+→ kubelet logs explain why it refuses to start them
+
+5. After editing control plane YAML
+
+You fixed etcd IP
+
+Changed cert path
+
+Updated flags
+→ restart kubelet
+→ check logs to confirm reload
+
+6. Node shows NotReady
+
+kubectl get nodes says NotReady
+
+Heartbeats missing
+→ kubelet logs tell you exactly what failed
+
+7. CNI / networking failures
+
+Pods have no IP
+
+DNS broken on one node
+
+Calico / Cilium misbehaving
+→ kubelet logs show CNI errors
+
+8. Volume mount / storage issues
+
+PVC bound but pod won’t start
+
+NFS / hostPath / CSI issues
+→ kubelet logs show mount failures
+
+9. Image pull errors that make no sense
+
+Image exists
+
+Credentials correct
+
+Still failing
+→ kubelet logs reveal registry, auth, or runtime errors
+
+10. Certificate / auth problems
+
+“x509” errors
+
+kubelet can’t talk to API server
+→ kubelet logs are brutally explicit
+
+11. After rebooting a node
+
+Things didn’t come back
+
+Static pods missing
+
+Node not rejoining
+→ kubelet startup logs
+
+12. Before you blame Kubernetes
+
+Scheduler looks fine
+
+API server responds
+
+One node is cursed
+→ it’s kubelet. It’s always kubelet.
+
+How you actually check it (CKA-style)
+
+Status:
+
+systemctl status kubelet
+
+
+Logs:
+
+journalctl -u kubelet
+
+
+Live follow:
+
+journalctl -u kubelet -f
+
+Mental shortcut (exam gold)
+
+Cluster-wide issue → API server / etcd / scheduler
+
+Single-node issue → kubelet
+
+Static pod broken → kubelet
+
+“Restart kubelet” fixes it → kubelet was the problem

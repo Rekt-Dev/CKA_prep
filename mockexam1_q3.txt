@@ -1,0 +1,23 @@
+ght: 6
+On controlplane node, identify all CRDs related to VerticalPodAutoscaler and save their names into the file /root/vpa-crds.txt.
+
+
+Does the file contain correct CRDs?
+
+
+
+
+
+
+
+----------------------------------------
+
+
+sudo apt update
+sudo apt install -y /root/cri-docker_...
+sudo systemctl start cri-docker
+sudo systemctl enable cri-docker
+sudo systemctl status cri-docker
+
+
+or sudo -i in the beginning to avoid sudoing like a slavio 

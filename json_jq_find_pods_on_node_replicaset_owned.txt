@@ -1,0 +1,2 @@
+kubectl get pods --field-selector spec.nodeName=<node-name> -o json | jq '.items[] | select(.metadata.ownerReferences==null) | .metadata.name'
+

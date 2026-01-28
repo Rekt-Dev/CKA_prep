@@ -1,0 +1,2 @@
+
+helm repo update && helm upgrade kk-mock1 kk-mock1/nginx -n kk-ns --version 18.1.15

@@ -1,0 +1,75 @@
+ 
+ add
+
+Adds a place where charts live. Like adding an apt repo.
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+
+
+→ “Helm, remember where charts are and refresh the list.”
+
+2️⃣ helm search
+
+Find a chart.
+
+helm search repo nginx
+
+
+→ “Show me charts with nginx in the name.”
+
+3️⃣ helm install
+
+Install an app into Kubernetes.
+
+helm install my-nginx bitnami/nginx
+
+
+→ “Install nginx and call it my-nginx.”
+
+With values:
+
+helm install my-nginx bitnami/nginx --set service.type=NodePort
+
+
+→ “Same app, but tweak one setting.”
+
+4️⃣ helm upgrade
+
+Change an existing install.
+
+helm upgrade my-nginx bitnami/nginx --set replicaCount=3
+
+
+→ “Keep it installed, just change stuff.”
+
+5️⃣ helm uninstall
+
+Remove it.
+
+helm uninstall my-nginx
+
+
+→ “Delete everything Helm created.”
+
+One concept you MUST know
+
+Chart = app template
+
+Release = your installed copy of that chart
+
+helm list
+
+
+→ “Show me what I installed.”
+
+Mental model (important)
+
+Helm =
+kubectl apply
+
+templates
+
+sane defaults
+
+one command instead of 20 YAMLs

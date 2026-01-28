@@ -1,0 +1,168 @@
+dminov@k8s:~/kubernetesStudies$ ps aux
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.0  22492 13708 ?        Ss   Dec18   0:18 /sbin/init
+root           2  0.0  0.0      0     0 ?        S    Dec18   0:00 [kthreadd]
+root           3  0.0  0.0      0     0 ?        S    Dec18   0:00 [pool_workqueue_release]
+root           4  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-rcu_gp]
+root           5  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-sync_wq]
+root           6  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-kvfree_rcu_rec
+root           7  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-slub_flushwq]
+root           8  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-netns]
+root          12  0.0  0.0      0     0 ?        I    Dec18   0:00 [kworker/u16:0-netns]
+root          13  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-mm_percpu_wq]
+root          14  0.0  0.0      0     0 ?        I    Dec18   0:00 [rcu_tasks_kthread]
+root          15  0.0  0.0      0     0 ?        I    Dec18   0:00 [rcu_tasks_rude_kthread]
+root          16  0.0  0.0      0     0 ?        I    Dec18   0:00 [rcu_tasks_trace_kthread]
+root          17  0.0  0.0      0     0 ?        S    Dec18   0:41 [ksoftirqd/0]
+root          18  0.0  0.0      0     0 ?        I    Dec18   2:18 [rcu_preempt]
+root          19  0.0  0.0      0     0 ?        S    Dec18   0:00 [rcu_exp_par_gp_kthread_w
+root          20  0.0  0.0      0     0 ?        S    Dec18   0:00 [rcu_exp_gp_kthread_worke
+root          21  0.0  0.0      0     0 ?        S    Dec18   0:03 [migration/0]
+root          22  0.0  0.0      0     0 ?        S    Dec18   0:00 [idle_inject/0]
+root          23  0.0  0.0      0     0 ?        S    Dec18   0:00 [cpuhp/0]
+root          24  0.0  0.0      0     0 ?        S    Dec18   0:00 [cpuhp/1]
+root          25  0.0  0.0      0     0 ?        S    Dec18   0:00 [idle_inject/1]
+root          26  0.0  0.0      0     0 ?        S    Dec18   0:04 [migration/1]
+root          27  0.0  0.0      0     0 ?        S    Dec18   2:32 [ksoftirqd/1]
+root          30  0.0  0.0      0     0 ?        S    Dec18   0:00 [cpuhp/2]
+root          31  0.0  0.0      0     0 ?        S    Dec18   0:00 [idle_inject/2]
+root          32  0.0  0.0      0     0 ?        S    Dec18   0:04 [migration/2]
+root          33  0.0  0.0      0     0 ?        S    Dec18   0:28 [ksoftirqd/2]
+root          36  0.0  0.0      0     0 ?        S    Dec18   0:00 [cpuhp/3]
+root          37  0.0  0.0      0     0 ?        S    Dec18   0:00 [idle_inject/3]
+root          38  0.0  0.0      0     0 ?        S    Dec18   0:04 [migration/3]
+root          39  0.0  0.0      0     0 ?        S    Dec18   0:26 [ksoftirqd/3]
+root          46  0.0  0.0      0     0 ?        S    Dec18   0:00 [kdevtmpfs]
+root          47  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-inet_frag_wq]
+root          48  0.0  0.0      0     0 ?        S    Dec18   0:00 [kauditd]
+root          49  0.0  0.0      0     0 ?        S    Dec18   0:00 [khungtaskd]
+root          50  0.0  0.0      0     0 ?        S    Dec18   0:00 [oom_reaper]
+root          53  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-writeback]
+root          54  0.0  0.0      0     0 ?        S    Dec18   0:14 [kcompactd0]
+root          55  0.0  0.0      0     0 ?        SN   Dec18   0:00 [ksmd]
+root          56  0.0  0.0      0     0 ?        SN   Dec18   0:00 [khugepaged]
+root          57  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-kintegrityd]
+root          58  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-kblockd]
+root          59  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-blkcg_punt_bio
+root          61  0.0  0.0      0     0 ?        S    Dec18   0:00 [irq/9-acpi]
+root          62  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-tpm_dev_wq]
+root          63  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-ata_sff]
+root          64  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-md]
+root          65  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-md_bitmap]
+root          66  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-edac-poller]
+root          67  0.0  0.0      0     0 ?        I    Dec18   0:00 [kworker/u16:1]
+root          68  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-devfreq_wq]
+root          69  0.0  0.0      0     0 ?        S    Dec18   0:00 [watchdogd]
+root          72  0.0  0.0      0     0 ?        S    Dec18   0:00 [kswapd0]
+root          73  0.0  0.0      0     0 ?        S    Dec18   0:00 [ecryptfs-kthread]
+root          74  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-kthrotld]
+root          76  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-acpi_thermal_p
+root          78  0.0  0.0      0     0 ?        S    Dec18   0:00 [scsi_eh_0]
+root          79  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-scsi_tmf_0]
+root          80  0.0  0.0      0     0 ?        S    Dec18   0:00 [scsi_eh_1]
+root          81  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-scsi_tmf_1]
+root          85  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-mld]
+root          86  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-ipv6_addrconf]
+root          96  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-kstrp]
+root          99  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/u21:0]
+root         100  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/u22:0]
+root         101  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/u23:0]
+root         102  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/u24:0]
+root         103  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/u25:0]
+root         109  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-cryptd]
+root         119  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-charger_manage
+root         120  0.0  0.0      0     0 ?        I<   Dec18   0:12 [kworker/0:1H-kblockd]
+root         145  0.0  0.0      0     0 ?        I<   Dec18   0:07 [kworker/3:1H-kblockd]
+root         177  0.0  0.0      0     0 ?        S    Dec18   0:00 [scsi_eh_2]
+root         178  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-scsi_tmf_2]
+root         211  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-kdmflush/252:0
+root         237  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-raid5wq]
+root         283  0.0  0.0      0     0 ?        S    Dec18   0:11 [jbd2/dm-0-8]
+root         284  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-ext4-rsv-conve
+root         343  0.0  0.0      0     0 ?        S    Dec18   0:00 [psimon]
+root         348  0.0  0.2  83352 36520 ?        S<s  Dec18   0:20 /usr/lib/systemd/systemd-
+root         373  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-kmpathd]
+root         375  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-kmpath_handler
+root         399  0.0  0.1 289120 27456 ?        SLsl Dec18   0:40 /sbin/multipathd -d -s
+root         422  0.0  0.0  29468  8140 ?        Ss   Dec18   0:00 /usr/lib/systemd/systemd-
+root         432  0.0  0.0      0     0 ?        S    Dec18   0:00 [psimon]
+root         520  0.0  0.0      0     0 ?        S    Dec18   0:00 [irq/18-vmwgfx]
+root         521  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-ttm]
+root         572  0.0  0.0      0     0 ?        S    Dec18   0:00 [jbd2/sda2-8]
+root         573  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-ext4-rsv-conve
+systemd+     601  0.0  0.0  19008  9580 ?        Ss   Dec18   0:43 /usr/lib/systemd/systemd-
+systemd+     643  0.0  0.0  21708 13016 ?        Ss   Dec18   0:06 /usr/lib/systemd/systemd-
+systemd+     647  0.0  0.0  91024  7936 ?        Ssl  Dec18   0:01 /usr/lib/systemd/systemd-
+root         709  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-cfg80211]
+message+     738  0.0  0.0  10120  5864 ?        Ss   Dec18   0:08 @dbus-daemon --system --a
+polkitd      743  0.0  0.0 383704 10096 ?        Ssl  Dec18   0:07 /usr/lib/polkit-1/polkitd
+root         747  0.0  0.2 1923312 38808 ?       Ssl  Dec18   0:12 /usr/lib/snapd/snapd
+root         749  0.0  0.0  18032  9088 ?        Ss   Dec18   0:00 /usr/lib/systemd/systemd-
+root         750  0.0  0.0 469056 13684 ?        Ssl  Dec18   0:06 /usr/libexec/udisks2/udis
+root         758  0.6  0.4 3616640 70708 ?       Ssl  Dec18  24:46 /usr/bin/containerd
+syslog       766  0.0  0.0 222508  6360 ?        Ssl  Dec18   0:03 /usr/sbin/rsyslogd -n -iN
+root         770  0.0  0.1 109684 23104 ?        Ssl  Dec18   0:00 /usr/bin/python3 /usr/sha
+root         805  0.0  0.0 318296 12960 ?        Ssl  Dec18   0:00 /usr/sbin/ModemManager
+root         824  0.0  0.0   6824  2908 ?        Ss   Dec18   0:00 /usr/sbin/cron -f -P
+root         836  0.0  0.0   6104  2036 tty1     Ss+  Dec18   0:00 /sbin/agetty -o -p -- \u
+root        1005  0.0  0.0  12020  8160 ?        Ss   Dec18   0:00 sshd: /usr/sbin/sshd -D [
+root        1006  0.0  0.0  14964 10556 ?        Ss   Dec18   0:00 sshd: adminov [priv]
+adminov     1041  0.0  0.0  20320 11452 ?        Ss   Dec18   0:00 /usr/lib/systemd/systemd
+adminov     1042  0.0  0.0  21148  3580 ?        S    Dec18   0:00 (sd-pam)
+adminov     1180  0.0  0.0  15124  7068 ?        S    Dec18   0:06 sshd: adminov@pts/0
+adminov     1186  0.0  0.0  10020  7132 pts/0    Ss   Dec18   0:00 -bash
+root        1255  0.0  0.0      0     0 ?        I<   Dec18   0:00 [kworker/R-tls-strp]
+root        1286  3.2  0.5 2325608 94908 ?       Ssl  Dec18 124:19 /usr/bin/kubelet --bootst
+root        1410  0.0  0.0 1238384 15784 ?       Sl   Dec18   1:39 /usr/bin/containerd-shim-
+root        1414  0.0  0.0 1238384 15844 ?       Sl   Dec18   1:36 /usr/bin/containerd-shim-
+root        1416  0.0  0.0 1238384 15796 ?       Sl   Dec18   1:36 /usr/bin/containerd-shim-
+root        1427  0.0  0.0 1238640 15804 ?       Sl   Dec18   1:35 /usr/bin/containerd-shim-
+65535       1492  0.0  0.0    996   596 ?        Ss   Dec18   0:00 /pause
+65535       1494  0.0  0.0    996   592 ?        Ss   Dec18   0:00 /pause
+65535       1506  0.0  0.0    996   588 ?        Ss   Dec18   0:00 /pause
+65535       1508  0.0  0.0    996   592 ?        Ss   Dec18   0:00 /pause
+root        1605  0.9  0.3 1276212 62560 ?       Ssl  Dec18  38:21 kube-scheduler --authenti
+root        1630  2.3  0.6 1299596 106768 ?      Ssl  Dec18  89:50 kube-controller-manager -
+root        1640  5.3  1.7 1516588 293916 ?      Ssl  Dec18 205:38 kube-apiserver --advertis
+root        1645  2.9  0.4 11740496 81112 ?      Ssl  Dec18 113:32 etcd --advertise-client-u
+root        1733  0.0  0.0 1238384 15588 ?       Sl   Dec18   1:23 /usr/bin/containerd-shim-
+65535       1753  0.0  0.0    996   596 ?        Ss   Dec18   0:00 /pause
+root        1764  0.0  0.0 1238384 16088 ?       Sl   Dec18   1:25 /usr/bin/containerd-shim-
+65535       1795  0.0  0.0    996   592 ?        Ss   Dec18   0:00 /pause
+root        1830  0.0  0.2 1271448 49640 ?       Ssl  Dec18   1:05 /usr/local/bin/kube-proxy
+root        2027  0.2  0.2 1277448 46352 ?       Ssl  Dec18  10:26 /opt/bin/flanneld --ip-ma
+root       16679  0.0  0.2 606844 43680 ?        Ssl  Dec18   0:21 /usr/libexec/fwupd/fwupd
+root       16686  0.0  0.0 314008  9224 ?        Ssl  Dec18   0:00 /usr/libexec/upowerd
+root      684886  0.0  0.0      0     0 ?        I<   Dec20   0:00 [kworker/2:1H-kblockd]
+root      685580  0.0  0.0      0     0 ?        I<   Dec20   0:00 [kworker/0:2H]
+root      702681  0.0  0.0      0     0 ?        I<   Dec20   0:03 [kworker/2:0H-kblockd]
+root      751823  0.0  0.0      0     0 ?        I<   Dec20   0:00 [kworker/3:2H-kblockd]
+root      753426  0.0  0.0      0     0 ?        I    Dec20   0:07 [kworker/3:0-mm_percpu_wq
+root      754210  0.0  0.0      0     0 ?        I    Dec20   0:08 [kworker/2:0-mm_percpu_wq
+root      765757  0.0  0.0      0     0 ?        I<   Dec20   0:02 [kworker/1:1H-kblockd]
+root      768294  0.0  0.0      0     0 ?        I<   Dec20   0:00 [kworker/1:0H]
+root      898304  0.0  0.0      0     0 ?        I    03:10   0:03 [kworker/0:1-events]
+root      900345  0.0  0.0      0     0 ?        I    03:18   0:00 [kworker/u20:0-kvfree_rcu
+root      923913  0.0  0.0      0     0 ?        I    04:51   0:00 [kworker/u19:2-events_unb
+root      935744  0.0  0.0      0     0 ?        I    05:39   0:00 [kworker/3:3-events]
+root      936194  0.0  0.0      0     0 ?        I    05:41   0:00 [kworker/u19:1-flush-252:
+root      936684  0.0  0.0      0     0 ?        I    05:43   0:00 [kworker/0:0-cgroup_destr
+root      941677  0.6  0.0      0     0 ?        I    06:03   0:15 [kworker/1:1-mm_percpu_wq
+root      941769  0.0  0.0      0     0 ?        I    06:04   0:00 [kworker/u17:3-events_unb
+root      941920  0.0  0.0      0     0 ?        I    06:04   0:00 [kworker/u18:0-kvfree_rcu
+root      945059  0.0  0.0      0     0 ?        I    06:17   0:00 [kworker/u17:2-events_pow
+root      945695  0.0  0.0      0     0 ?        I    06:19   0:00 [kworker/2:1-cgroup_destr
+root      945784  0.0  0.0      0     0 ?        I    06:19   0:00 [kworker/u20:1-events_pow
+root      946109  0.0  0.0      0     0 ?        I    06:21   0:00 [kworker/u18:4-flush-252:
+root      948060  0.0  0.0      0     0 ?        I    06:29   0:00 [kworker/u19:0-events_unb
+root      949440  0.0  0.0      0     0 ?        I    06:34   0:00 [kworker/1:0-cgroup_destr
+root      949897  0.0  0.0      0     0 ?        I    06:36   0:00 [kworker/u17:0-kvfree_rcu
+root      950142  0.0  0.0      0     0 ?        I    06:37   0:00 [kworker/u18:1-events_pow
+root      951265  0.0  0.0      0     0 ?        I    06:42   0:00 [kworker/3:1]
+root      951430  0.0  0.0      0     0 ?        I    06:42   0:00 [kworker/u18:2-events_pow
+adminov   952074 50.0  0.0  12184  5164 pts/0    R+   06:45   0:00 ps aux
+adminov@k8s:~/kubernetesStudies$ ps -aux | grep kube-api
+root        1640  5.3  1.7 1516588 293916 ?      Ssl  Dec18 205:39 kube-apiserver --advertise-address=192.168.1.110 --allow-privileged=true --authorization-mode=Node,RBAC --client-ca-file=/etc/kubernetes/pki/ca.crt --enable-admission-plugins=NodeRestriction --enable-bootstrap-token-auth=true --etcd-cafile=/etc/kubernetes/pki/etcd/ca.crt --etcd-certfile=/etc/kubernetes/pki/apiserver-etcd-client.crt --etcd-keyfile=/etc/kubernetes/pki/apiserver-etcd-client.key --etcd-servers=https://127.0.0.1:2379 --kubelet-client-certificate=/etc/kubernetes/pki/apiserver-kubelet-client.crt --kubelet-client-key=/etc/kubernetes/pki/apiserver-kubelet-client.key --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname --proxy-client-cert-file=/etc/kubernetes/pki/front-proxy-client.crt --proxy-client-key-file=/etc/kubernetes/pki/front-proxy-client.key --requestheader-allowed-names=front-proxy-client --requestheader-client-ca-file=/etc/kubernetes/pki/front-proxy-ca.crt --requestheader-extra-headers-prefix=X-Remote-Extra- --requestheader-group-headers=X-Remote-Group --requestheader-username-headers=X-Remote-User --secure-port=6443 --service-account-issuer=https://kubernetes.default.svc.cluster.local --service-account-key-file=/etc/kubernetes/pki/sa.pub --service-account-signing-key-file=/etc/kubernetes/pki/sa.key --service-cluster-ip-range=10.96.0.0/12 --tls-cert-file=/etc/kubernetes/pki/apiserver.crt --tls-private-key-file=/etc/kubernetes/pki/apiserver.key
+adminov   952138  0.0  0.0   6544  2328 pts/0    S+   06:45   0:00 grep --color=auto kube-api
+adminov@k8s:~/kubernetesStudies$ ps -aux | grep kube-api | grep "encryption-provider-config"
+adminov@k8s:~/kubernetesStudies$

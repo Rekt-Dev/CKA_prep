@@ -1,0 +1,13 @@
+ssh bob@node01
+
+sudo -i
+
+apt update
+
+apt install -y /root/cri-docker_0.3.16.3-0.debian.deb
+
+systemctl start cri-docker
+
+systemctl enable cri-docker
+
+systemctl status cri-docker --no-pager

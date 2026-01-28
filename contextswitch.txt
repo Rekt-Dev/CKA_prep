@@ -1,0 +1,8 @@
+
+lplane ~ ➜  kubectl config get-contexts 
+CURRENT   NAME                          CLUSTER          AUTHINFO           NAMESPACE
+*         kubernetes-admin@kubernetes   kubernetes       kubernetes-admin   
+          research                      test-cluster-1   dev-user           
+
+controlplane ~ ➜  kubectl config --kubeconfig=/root/my-kube-config use-context research
+Switched to context "research".
